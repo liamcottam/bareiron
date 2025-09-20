@@ -857,10 +857,11 @@ int cs_closeContainer (int client_fd) {
 // S->C Player Info Update, "Add Player" action
 int sc_playerInfoUpdateAddPlayer (int client_fd, PlayerData player) {
 
-  writeVarInt(client_fd, 21 + strlen(player.name)); // Packet length
+  writeVarInt(client_fd, 22 + strlen(player.name)); // Packet length
+
   writeByte(client_fd, 0x3F); // Packet ID
 
-  writeByte(client_fd, 0x01); // EnumSet: Add Player
+  writeByte(client_fd, 0x01 | 0x08); // EnumSet: 0x01 = add player, 0x08 = listed
   writeByte(client_fd, 1); // Player count (1 per packet)
 
   // Player UUID
@@ -870,6 +871,8 @@ int sc_playerInfoUpdateAddPlayer (int client_fd, PlayerData player) {
   send_all(client_fd, player.name, strlen(player.name));
   // Properties (don't send any)
   writeByte(client_fd, 0);
+  // Listed
+  writeByte(client_fd, 1);
 
   return 0;
 }
