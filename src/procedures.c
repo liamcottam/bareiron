@@ -160,6 +160,7 @@ void handlePlayerDisconnect (int client_fd) {
       sc_systemChat(player_data[j].client_fd, (char *)recv_buffer, 14 + player_name_len);
       // Remove leaving player's entity
       sc_removeEntity(player_data[j].client_fd, client_fd);
+      sc_playerInfoRemove(player_data[j].client_fd, player_data[i].uuid);
     }
     break;
   }

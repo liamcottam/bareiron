@@ -1272,6 +1272,17 @@ int sc_removeEntity (int client_fd, int entity_id) {
   return 0;
 }
 
+// S->C Player Info Remove
+int sc_playerInfoRemove (int client_fd, uint8_t *uuid) {
+  writeVarInt(client_fd, 1 + 16 + sizeVarInt(1));
+  writeByte(client_fd, 0x3E);
+
+  writeVarInt(client_fd, 1); // prefixed length
+  send_all(client_fd, uuid, 16);
+
+  return 0;
+}
+
 // C->S Player Input
 int cs_playerInput (int client_fd) {
 
