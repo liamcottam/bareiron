@@ -304,7 +304,6 @@ function toCArray (buffer) {
 }
 
 const requiredRegistries = [
-  "dimension_type",
   "cat_variant",
   "chicken_variant",
   "cow_variant",
@@ -345,6 +344,8 @@ async function convert () {
   }
   // Send biomes separately - only "plains" is actually required
   registryBuffers.push(serializeRegistry("worldgen/biome", biomes));
+  // Send dimensions separately - we only use "overworld"
+  registryBuffers.push(serializeRegistry("dimension_type", ["overworld"]));
   const fullRegistryBuffer = Buffer.concat(registryBuffers);
 
   const itemsAndBlocks = await extractItemsAndBlocks();
